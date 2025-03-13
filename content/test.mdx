@@ -1,0 +1,46 @@
+---
+title: Hello!
+description: Test desc
+---
+
+I'm 25 years old as I begin this journal and feel the need to challenge myself. My work routine has been feeling stagnant, and as someone who loves continuous learning, I’m seeking a new endeavor to spark my curiosity. This is a site to document my process of learning about things like Computer Architecture, Operating Systems, SRE best practices, etc...
+
+```ts twoslash
+// @noErrorValidation
+interface Todo {
+  title: string
+}
+
+const todo: Readonly<Todo> = {
+  title: 'Delete inactive users'.toUpperCase()
+  //  ^?
+// const todo: Readonly<Todo> = {
+  title: 'Delete inactive users'.toUpperCase()
+  //  ^?
+}
+ 
+todo.title = 'Hello'
+ 
+Number.parseInt('123', 10)
+//      ^|
+               // Just comments, so Popup will be
+               // not behind the viewport of `<code>`
+               // element due his `position: absolute` style
+               //
+```
+
+```ts twoslash
+const level: string = 'Danger'
+// ---cut---
+console.log(level)
+```
+
+```ansi
+[0m [0;32m✓[0m [0;2msrc/[0mindex[0;2m.test.ts (1)[0m
+  [0;2m Test Files [0m [0;1;32m1 passed[0;98m (1)[0m
+  [0;2m      Tests [0m [0;1;32m1 passed[0;98m (1)[0m
+  [0;2m   Start at [0m 23:32:41
+  [0;2m   Duration [0m 11ms
+  [42;1;39;0m PASS [0;32m Waiting for file changes...[0m
+         [0;2mpress [0;1mh[0;2m to show help, press [0;1mq[0;2m to quit
+```
