@@ -7,7 +7,7 @@ import './globals.css'
 import { Separator } from "@/components/ui/separator";
 
 export const metadata = {
-  title: "Blog Example",
+  title: { template: "%s - Harris Blog" },
 };
 
 export default async function RootLayout({ children }) {

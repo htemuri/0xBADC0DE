@@ -6,8 +6,8 @@ const meta: MetaRecord = {
     type: "page",
     href: "/",
   },
-  another: {
-    title: "another",
+  posts: {
+    title: "Posts",
     type: "page",
   },
 };
