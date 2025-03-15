@@ -1,45 +1,157 @@
 ---
 title: Howdy!
-description: Test desc
-author: Harris Temuri
-date: 2024/03/15
+description: Home Page
+author: Harris Temuri – Platform Engineer
 ---
 
-My work routine has been feeling stagnant, and as someone who loves continuous learning, I’m seeking a new endeavor to spark my curiosity. This is a site to document my process of learning about things like Computer Architecture, Operating Systems, SRE best practices, etc...
+My work routine has started feeling a bit stagnant, so I’m looking for something fresh to keep me learning. I’m using this space to document my journey through computer architecture, operating systems, networking, SRE best practices, and whatever else sparks my curiosity along the way.
 
-```ts twoslash
-// @noErrorValidation
-interface Todo {
-  title: string
-}
+Below is my personal phased roadmap for deepening my skills in computer systems, performance tuning, and advanced development. I’ll be marking tasks complete as I go.
 
-const todo: Readonly<Todo> = {
-  title: 'Delete inactive users'.toUpperCase()
-  //  ^?
-}
+---
 
- 
-todo.title = 'Hello'
- 
-Number.parseInt('123', 10)
-//      ^|
-               // Just comments, so Popup will be
-               // not behind the viewport of `<code>`
-               // element due his `position: absolute` style
-```
+## Roadmap
 
-```ts twoslash
-const level: string = 'Danger'
-// ---cut---
-console.log(level)
-```
+| **Phase** | **Focus**                                                                         | **Deliverables**                                                 |
+|-----------|-----------------------------------------------------------------------------------|------------------------------------------------------------------|
+| Phase 1   | Computer Architecture                                                             | Cache Benchmarks, NUMA Tests                                     |
+| Phase 2   | OS & Kernel Tuning                                                               | PREEMPT_RT Kernel, Syscall Profiling                             |
+| Phase 3   | Networking & Low-Latency                                                          | Low-Latency Router Config, DPDK Experiments                      |
+| Phase 4   | Observability & Monitoring                                                        | Prometheus + Grafana Dashboards, eBPF Tracing                    |
+| Phase 5   | High-Performance Programming & Concurrency                                        | Lock-Free Ring Buffer, Multi-threaded Order Book                 |
+| Phase 6   | Hardware Acceleration & FPGA/Electronics                                          | FPGA Timestamping, Advanced NIC Offload                          |
 
-```ansi
-[0m [0;32m✓[0m [0;2msrc/[0mindex[0;2m.test.ts (1)[0m
-  [0;2m Test Files [0m [0;1;32m1 passed[0;98m (1)[0m
-  [0;2m      Tests [0m [0;1;32m1 passed[0;98m (1)[0m
-  [0;2m   Start at [0m 23:32:41
-  [0;2m   Duration [0m 11ms
-  [42;1;39;0m PASS [0;32m Waiting for file changes...[0m
-         [0;2mpress [0;1mh[0;2m to show help, press [0;1mq[0;2m to quit
-```
+
+
+## Computer Architecture & Basics
+
+### Reading Tasks
+- [ ] Read “Computer Architecture: A Quantitative Approach” by Hennessy & Patterson  
+- [ ] Skim CPU-related sections in “Systems Performance” by Brendan Gregg  
+
+### Project Tasks
+- [ ] **CPU Cache Benchmarking**  
+  - Write a C/C++ program to measure performance for arrays sized to fit/unfit L1/L2/L3 caches  
+  - Use `perf` or `cachegrind` to gather data on cache misses and branch mispredictions  
+- [ ] **NUMA-Aware Memory Allocation**  
+  - Use `numactl` to bind processes to a specific NUMA node  
+  - Benchmark memory throughput/latency with tools like `mbw` or `lmbench`  
+
+**Milestones**  
+- [ ] Have logs/graphs showing cache and NUMA performance differences  
+- [ ] Gain a solid understanding of branch prediction, cache hierarchies, and NUMA fundamentals  
+
+---
+
+## Operating Systems & Kernel Tuning
+
+### Reading Tasks
+- [ ] Read “Operating System Concepts” by Silberschatz, Galvin, Gagne  
+- [ ] Study the scheduling and memory management chapters in “Linux Kernel Development” by Robert Love  
+
+### Project Tasks
+- [ ] **Custom Low-Latency Kernel**  
+  - Compile a **PREEMPT_RT**-patched kernel  
+  - Use `cyclictest` to measure improvements in real-time scheduling  
+- [ ] **Syscall Profiling & Minimization**  
+  - Use `strace` or eBPF to measure syscall overhead  
+  - Implement a ring buffer in userspace; compare its performance with `read()/write()`  
+
+**Milestones**  
+- [ ] Be able to explain how various schedulers affect latency  
+- [ ] Have a working RT kernel with documented latency gains  
+
+---
+
+## Networking & Low-Latency Optimization
+
+### Reading Tasks
+- [ ] Read “TCP/IP Illustrated” Vol. 1 by W. Richard Stevens  
+- [ ] Review DPDK or Solarflare Onload documentation  
+
+### Project Tasks
+- [ ] **UDP Multicast Feed Handler**  
+  - Configure **multicast** on my MikroTik router  
+  - Write a small C++/Python listener; measure packet drops and jitter with `tcpdump` or Wireshark  
+- [ ] **Kernel Bypass Experiment (DPDK)**  
+  - Install and configure **DPDK** on a Dell server  
+  - Compare packet throughput/latency against regular Linux sockets  
+- [ ] **MikroTik Router Tuning**  
+  - Enable **hardware offload** if supported  
+  - Benchmark router performance with iPerf or netperf  
+
+**Milestones**  
+- [ ] Measure round-trip latency for both standard networking and bypass methods  
+- [ ] Be able to explain TCP congestion control or UDP multicast in depth  
+
+---
+
+## Observability & Monitoring
+
+### Reading Tasks
+- [ ] Read “Prometheus: Up & Running” by Brian Brazil  
+- [ ] Study “BPF Performance Tools” by Brendan Gregg to learn about eBPF  
+
+### Project Tasks
+- [ ] **Prometheus & Grafana Setup**  
+  - Deploy Prometheus on a central server; configure scrapers on all lab nodes  
+  - Create **Grafana dashboards** to track CPU usage, network latency, and disk I/O  
+- [ ] **Real-Time Logging Pipeline**  
+  - Configure Fluent Bit or Logstash for log ingestion  
+  - Use **structured JSON logging** for better correlation  
+- [ ] **eBPF Tracing**  
+  - Write bpftrace scripts to measure system call latency or monitor packet flow  
+  - Investigate kernel-level performance bottlenecks in real time  
+
+**Milestones**  
+- [ ] Have real-time alerts for latency spikes beyond a chosen threshold  
+- [ ] Be able to troubleshoot system issues using logs, metrics, and eBPF traces  
+
+---
+
+## High-Performance Programming & Concurrency
+
+### Reading Tasks
+- [ ] Read “The Art of Multiprocessor Programming” by Herlihy & Shavit  
+- [ ] Review “Effective C++” by Scott Meyers for best practices in C++  
+
+### Project Tasks
+- [ ] **Lock-Free Ring Buffer**  
+  - Implement a **single-producer, single-consumer** ring buffer using `std::atomic`  
+  - Benchmark throughput under various concurrency settings  
+- [ ] **High-Performance Order Book Simulation**  
+  - Write a **multi-threaded** order-matching engine in C++  
+  - Focus on **cache alignment** to avoid false sharing  
+- [ ] **Parallel Data Processing**  
+  - Parse large data files in parallel using **OpenMP** or **std::thread**  
+  - Profile concurrency overhead using `perf` or Intel VTune  
+
+**Milestones**  
+- [ ] Understand how to avoid **race conditions** and false sharing  
+- [ ] Be able to measure concurrency performance (messages/sec, CPU usage, etc.)  
+
+---
+
+## Hardware Acceleration & FPGA/Electronics
+
+### Reading Tasks
+- [ ] Read “FPGA Prototyping by VHDL Examples” by Pong P. Chu (or use similar Verilog resources)  
+- [ ] Check Intel, Xilinx, Mellanox whitepapers on ultra-low-latency networking  
+
+### Project Tasks
+- [ ] **Precision Time Protocol (PTP) Setup**  
+  - Configure PTP on my MikroTik router and Dell servers  
+  - Compare **nanosecond-level** sync accuracy to NTP  
+- [ ] **FPGA-Based Timestamping** (If I have an FPGA board)  
+  - Implement a basic **packet timestamping** module  
+  - Use an **oscilloscope** to measure real-world latency  
+- [ ] **NIC Offload & Kernel Bypass**  
+  - Experiment with **Solarflare Onload** or **Mellanox OFED** drivers  
+  - Compare microsecond-level latency improvements over standard networking  
+
+**Milestones**  
+- [ ] Achieve sub-millisecond or even microsecond-level timing accuracy across the lab  
+- [ ] Get practical experience with an FPGA or advanced NIC offloads  
+
+---
+

@@ -1,5 +1,5 @@
-import { Footer, Layout, Navbar, ThemeSwitch } from "nextra-theme-blog";
-import { Banner, Head, Search } from "nextra/components";
+import { Layout, Navbar, ThemeSwitch } from "nextra-theme-blog";
+import { Head, Search } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import "nextra-theme-blog/style.css";
 import React from "react";
@@ -7,26 +7,17 @@ import './globals.css'
 import { Separator } from "@/components/ui/separator";
 
 export const metadata = {
-  title: { template: "%s - Harris Blog" },
+  title: { template: "%s - Harris\'s Blog" },
 };
 
 export default async function RootLayout({ children }) {
-  // const banner = (
-  //   <Banner storageKey="4.0-release">
-  //     🎉 Nextra 4.0 is released.{" "}
-  //     <a href="#" className="x:text-primary-600">
-  //       Read more →
-  //     </a>
-  //   </Banner>
-  // );
-
   return (
     <html lang="en" suppressHydrationWarning>
       <Head backgroundColor={{ dark: "#09090b", light: "#ffffff" }} faviconGlyph="" />
       <body>
         <Layout>
           <div className="flex gap-3 mb-2 items-center">
-            <span className="text-xl cursor-default">Harris Temuri</span>
+            <code className="text-xl cursor-default text-cyan-600 dark:text-cyan-300 mt-1.5">0xBADC0DE</code>
             <div className="grow-1" />
             <Search />
             <ThemeSwitch />
@@ -34,12 +25,11 @@ export default async function RootLayout({ children }) {
           <Separator className="mb-2 " />
           <div className="flex">
             <Navbar pageMap={await getPageMap()}></Navbar>
-
           </div>
 
           {children}
 
-          <Footer>
+          {/* <Footer>
             <abbr
               title="This site and all its content are licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
               style={{ cursor: "help" }}
@@ -50,7 +40,7 @@ export default async function RootLayout({ children }) {
             <a href="/feed.xml" style={{ float: "right" }}>
               RSS
             </a>
-          </Footer>
+          </Footer> */}
         </Layout>
       </body>
     </html>

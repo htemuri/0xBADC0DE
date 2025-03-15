@@ -4,7 +4,7 @@ const meta: MetaRecord = {
   index: {
     title: "Home",
     type: "page",
-    href: "/",
+    theme: {},
   },
   posts: {
     title: "Posts",

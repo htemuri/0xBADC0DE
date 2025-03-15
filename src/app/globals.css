@@ -76,7 +76,7 @@
 }
 
 .x\:prose {
-  max-width: 90ch;
+  max-width: 103ch;
 
   :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
     color: var(--tw-prose-headings);
