@@ -9,6 +9,7 @@ export async function getPosts() {
   return directories
     .filter((post) => post.name !== "index")
     .sort(
+      // @ts-ignore
       (a, b) => new Date(b.frontMatter.date) - new Date(a.frontMatter.date)
     );
 }
