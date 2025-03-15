@@ -5,6 +5,9 @@ import "nextra-theme-blog/style.css";
 import React from "react";
 import './globals.css'
 import { Separator } from "@/components/ui/separator";
+import { GitHubIcon } from "nextra/icons";
+import Link from "next/link";
+import { LinkedinIcon } from "lucide-react";
 
 export const metadata = {
   title: { template: "%s - Harris\'s Blog" },
@@ -21,6 +24,12 @@ export default async function RootLayout({ children }) {
             <div className="grow-1" />
             <Search />
             <ThemeSwitch />
+            <Link href={"https://github.com/htemuri"} target="_blank">
+              <GitHubIcon width={15} />
+            </Link>
+            <Link href={"https://linkedin.com/in/harris-temuri"} target="_blank">
+              <LinkedinIcon width={15} className="ml-1" />
+            </Link>
           </div>
           <Separator className="mb-2 " />
           <div className="flex">

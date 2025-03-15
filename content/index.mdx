@@ -4,15 +4,13 @@ description: Home Page
 author: Harris Temuri – Platform Engineer
 ---
 
-My work routine has started feeling a bit stagnant, so I’m looking for something fresh to keep me learning. I’m using this space to document my journey through computer architecture, operating systems, networking, SRE best practices, and whatever else sparks my curiosity along the way.
-
-Below is my personal phased roadmap for deepening my skills in computer systems, performance tuning, and advanced development. I’ll be marking tasks complete as I go.
+My day-to-day started feeling a bit routine, so I decided to shake things up and learn some stuff in depth. This blog is where I’ll keep track of my explorations--from computer architecture and operating systems to networking, SRE best practices, and whatever else catches my interest. Below is the phased roadmap I’m using to stay organized.
 
 ---
 
 ## Roadmap
 
-| **Phase** | **Focus**                                                                         | **Deliverables**                                                 |
+| **Phase** | **Focus**                                                                         | **Projects**                                                 |
 |-----------|-----------------------------------------------------------------------------------|------------------------------------------------------------------|
 | Phase 1   | Computer Architecture                                                             | Cache Benchmarks, NUMA Tests                                     |
 | Phase 2   | OS & Kernel Tuning                                                               | PREEMPT_RT Kernel, Syscall Profiling                             |
@@ -22,14 +20,13 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 | Phase 6   | Hardware Acceleration & FPGA/Electronics                                          | FPGA Timestamping, Advanced NIC Offload                          |
 
 
+### Computer Architecture & Basics
 
-## Computer Architecture & Basics
-
-### Reading Tasks
+#### Reading Tasks
 - [ ] Read “Computer Architecture: A Quantitative Approach” by Hennessy & Patterson  
 - [ ] Skim CPU-related sections in “Systems Performance” by Brendan Gregg  
 
-### Project Tasks
+#### Project Tasks
 - [ ] **CPU Cache Benchmarking**  
   - Write a C/C++ program to measure performance for arrays sized to fit/unfit L1/L2/L3 caches  
   - Use `perf` or `cachegrind` to gather data on cache misses and branch mispredictions  
@@ -43,13 +40,13 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 
 ---
 
-## Operating Systems & Kernel Tuning
+### Operating Systems & Kernel Tuning
 
-### Reading Tasks
+#### Reading Tasks
 - [ ] Read “Operating System Concepts” by Silberschatz, Galvin, Gagne  
 - [ ] Study the scheduling and memory management chapters in “Linux Kernel Development” by Robert Love  
 
-### Project Tasks
+#### Project Tasks
 - [ ] **Custom Low-Latency Kernel**  
   - Compile a **PREEMPT_RT**-patched kernel  
   - Use `cyclictest` to measure improvements in real-time scheduling  
@@ -63,13 +60,13 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 
 ---
 
-## Networking & Low-Latency Optimization
+### Networking & Low-Latency Optimization
 
-### Reading Tasks
+#### Reading Tasks
 - [ ] Read “TCP/IP Illustrated” Vol. 1 by W. Richard Stevens  
 - [ ] Review DPDK or Solarflare Onload documentation  
 
-### Project Tasks
+#### Project Tasks
 - [ ] **UDP Multicast Feed Handler**  
   - Configure **multicast** on my MikroTik router  
   - Write a small C++/Python listener; measure packet drops and jitter with `tcpdump` or Wireshark  
@@ -86,13 +83,13 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 
 ---
 
-## Observability & Monitoring
+### Observability & Monitoring
 
-### Reading Tasks
+#### Reading Tasks
 - [ ] Read “Prometheus: Up & Running” by Brian Brazil  
 - [ ] Study “BPF Performance Tools” by Brendan Gregg to learn about eBPF  
 
-### Project Tasks
+#### Project Tasks
 - [ ] **Prometheus & Grafana Setup**  
   - Deploy Prometheus on a central server; configure scrapers on all lab nodes  
   - Create **Grafana dashboards** to track CPU usage, network latency, and disk I/O  
@@ -109,13 +106,13 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 
 ---
 
-## High-Performance Programming & Concurrency
+### High-Performance Programming & Concurrency
 
-### Reading Tasks
+#### Reading Tasks
 - [ ] Read “The Art of Multiprocessor Programming” by Herlihy & Shavit  
 - [ ] Review “Effective C++” by Scott Meyers for best practices in C++  
 
-### Project Tasks
+#### Project Tasks
 - [ ] **Lock-Free Ring Buffer**  
   - Implement a **single-producer, single-consumer** ring buffer using `std::atomic`  
   - Benchmark throughput under various concurrency settings  
@@ -132,13 +129,13 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 
 ---
 
-## Hardware Acceleration & FPGA/Electronics
+### Hardware Acceleration & FPGA/Electronics
 
-### Reading Tasks
+#### Reading Tasks
 - [ ] Read “FPGA Prototyping by VHDL Examples” by Pong P. Chu (or use similar Verilog resources)  
 - [ ] Check Intel, Xilinx, Mellanox whitepapers on ultra-low-latency networking  
 
-### Project Tasks
+#### Project Tasks
 - [ ] **Precision Time Protocol (PTP) Setup**  
   - Configure PTP on my MikroTik router and Dell servers  
   - Compare **nanosecond-level** sync accuracy to NTP  
@@ -155,3 +152,39 @@ Below is my personal phased roadmap for deepening my skills in computer systems,
 
 ---
 
+
+## Routines
+
+<div className={"flex mx-15"}>
+
+  <div>
+    ### Weekday Schedule (Mon–Fri)
+
+    | Time               | Activity                        |
+    |--------------------|---------------------------------|
+    | 9:00 AM – 5:00 PM  | Work                             |
+    | 5:00 PM – 5:30 PM  | Break      |
+    | 5:30 PM – 6:45 PM  | Gym                              |
+    | 6:45 PM – 7:30 PM  | Dinner                   |
+    | 7:30 PM – 8:30 PM  | Focused Study (Reading/Theory)   |
+    | 8:00 PM – 9:00 PM  | Hands-on Project/Lab             |
+    | 9:00 PM – 9:30 PM  | Daily LeetCode Problem           |
+    | 9:30 PM onwards    | Relax / Wind-down                |
+  </div>
+  <div className="grow"/>
+  <div>
+    ### Weekend Schedule (Saturday & Sunday)
+
+    | Time                   | Activity                                  |
+    |------------------------|---------------------------------------|
+    | 9:00 AM – 11:00 AM     | Deep-dive Reading & Theory            |
+    | 11:15 AM – 1:00 PM     | Hands-on Projects & Labs              |
+    | 11:00 AM – 1:00 PM     | Break / Errands            |
+    | 1:00 PM – 2:00 PM      | Lunch                                 |
+    | 2:00 PM – 5:00 PM      | Project Work (Practical)              |
+    | 5:00 PM – 6:30 PM      | Dinner / Leisure / Break              |
+    | 6:30 PM – 8:00 PM      | Extended LeetCode Session             |
+    | 8:00 PM – 8:30 PM      | Weekly Review & Planning               |
+    | 8:30 PM onwards        | Free time                             |
+  </div>
+</div>
