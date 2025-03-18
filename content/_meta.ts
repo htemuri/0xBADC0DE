@@ -9,6 +9,14 @@ const meta: MetaRecord = {
     title: "Posts",
     type: "page",
   },
+  notes: {
+    title: "Notes",
+    type: "page",
+  },
+  projects: {
+    title: "Projects",
+    type: "page",
+  },
 };
 
 export default meta;
