@@ -2,6 +2,7 @@
 title: Computer Architecture
 description: Notes on the book "Computer Architecture, A Quantitative Approach"
 date: 2025/03/17
+tags: [computer-architecture]
 ---
 
 ## Table Of Contents <!-- omit from toc -->
@@ -140,3 +141,4 @@ An **Instruction Set Architecture (ISA)** defines the interface between hardware
 ![Intel Core i7 die floorplan](/notes/computer-arch-1/core-i7-layout.png)
 
 ### 1.8 Measuring, Reporting, and Summarizing Performance
+
