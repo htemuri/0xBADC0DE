@@ -16,7 +16,9 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head backgroundColor={{ dark: "#09090b", light: "#ffffff" }} faviconGlyph="" />
+      <Head backgroundColor={{ dark: "#09090b", light: "#ffffff" }} >
+        <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='.9em' font-size='90' text-anchor='middle'>🏔️</text></svg>" />
+      </Head>
       <body>
         <Layout>
           <div className="flex gap-3 mb-2 items-center">
