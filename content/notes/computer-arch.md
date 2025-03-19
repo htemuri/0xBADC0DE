@@ -13,12 +13,15 @@ tags: [computer-architecture]
     - [Flynn's Taxonomy of Computer Architectures:](#flynns-taxonomy-of-computer-architectures)
   - [1.3 Defining Computer Architecture](#13-defining-computer-architecture)
   - [1.4 Trends in Technology](#14-trends-in-technology)
-  - [1.8 Measuring, Reporting, and Summarizing Performance](#18-measuring-reporting-and-summarizing-performance)
+  - [1.9 Quantitative Principles of Computer Design](#19-quantitative-principles-of-computer-design)
+  - [Summary](#summary)
+- [Chapter 2: Memory Hierarchy Design](#chapter-2-memory-hierarchy-design)
+  - [2.1 Introduction](#21-introduction)
 
 
 ## Bookmark <!-- omit from toc -->
 
-Stopped reading at page: **`36`**
+Stopped reading at page: **`72`**
 
 > [!Note]
 > 
@@ -95,12 +98,12 @@ An **Instruction Set Architecture (ISA)** defines the interface between hardware
    - Commonly uses **byte addressing**.
    - ARM and MIPS require **alignment** (address divisible by data size), while 80x86 does not, although aligned access is faster.
 
-    | Size (`s`) | Address (`A`) | Aligned? (`A mod s = 0`)        |
-    |------------|---------------|---------------------------------|
-    | 4 bytes    | `0x0004`      | ✅ Yes (`0x0004 mod 4 = 0`)      |
-    | 4 bytes    | `0x0005`      | ❌ No (`0x0005 mod 4 = 1`)       |
-    | 8 bytes    | `0x0010`      | ✅ Yes (`0x0010 mod 8 = 0`)      |
-    | 8 bytes    | `0x0014`      | ❌ No (`0x0014 mod 8 = 4`)       |
+    | Size (`s`) | Address (`A`) | Aligned? (`A mod s = 0`)   |
+    | ---------- | ------------- | -------------------------- |
+    | 4 bytes    | `0x0004`      | ✅ Yes (`0x0004 mod 4 = 0`) |
+    | 4 bytes    | `0x0005`      | ❌ No (`0x0005 mod 4 = 1`)  |
+    | 8 bytes    | `0x0010`      | ✅ Yes (`0x0010 mod 8 = 0`) |
+    | 8 bytes    | `0x0014`      | ❌ No (`0x0014 mod 8 = 4`)  |
 
     ARM and MIPS ***NEED*** to be aligned!
 
@@ -140,5 +143,21 @@ An **Instruction Set Architecture (ISA)** defines the interface between hardware
 
 ![Intel Core i7 die floorplan](/notes/computer-arch-1/core-i7-layout.png)
 
-### 1.8 Measuring, Reporting, and Summarizing Performance
+### 1.9 Quantitative Principles of Computer Design
+
+An example of instruction level parallelism is *pipelining*, overlapping instruction execution to reduce the total time to complete an instruction sequence. Not every instruction is dependendant on its predecessor.
+
+**Temporal locality** states that recently accessed items are likely to be accessed in the near future. 
+
+**Spatial locality** says that items whose addresses are near one another tend to be referenced close together in time
+
+### Summary
+
+This chapter focused more on performance measurement, efficiency, and introducing terms that will be discussed in future chapters. At a few points, the author mentioned checking out the book, *Computer Organization and Design: The Hardware/Software Interface*. Looks like its more of an introductory text which goes over computer architecture terminology. Not sure if I should check this out first...
+
+
+
+## Chapter 2: Memory Hierarchy Design
+
+### 2.1 Introduction
 
