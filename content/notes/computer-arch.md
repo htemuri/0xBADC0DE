@@ -17,11 +17,12 @@ tags: [computer-architecture]
   - [Summary](#summary)
 - [Chapter 2: Memory Hierarchy Design](#chapter-2-memory-hierarchy-design)
   - [2.1 Introduction](#21-introduction)
+  - [Appendix B](#appendix-b)
 
 
 ## Bookmark <!-- omit from toc -->
 
-Stopped reading at page: **`72`**
+Stopped reading at page: **`76`**
 
 > [!Note]
 > 
@@ -161,3 +162,32 @@ This chapter focused more on performance measurement, efficiency, and introducin
 
 ### 2.1 Introduction
 
+The concept of memory heirarchy came naturally as a result of the principle of locality. Not all data is accessed uniformly.
+
+![The levels in a typical memory hierarchy in a server computer shown on top (a) and in a personal mobile device (PMD) on the bottom (b)](/notes/computer-arch-1/memory-heirarchy.png)
+
+
+**Memory Basics**:
+
+- Groups of adjacent memory are called *blocks* and theyre copied over to higher levels in the memory hierarchy for efficiency reasons (locality). 
+- Each block has a *tag* which maps to the memory address it corresponds to. 
+- *Set associative* is a design scheme on determining where in a cache to store blocks
+- *Sets* are groups of blocks in a cache
+- Blocks are mapped to a set by doing a `(Block address) MOD (Number of sets in cache)`
+  - If there are n blocks in a set, the cache placement is called *n-way set associative*
+  - If you have 1 block per set (a block is always placed in the same location), its called a *direct-mapped cache*
+  - If you have just 1 set (a block can be placed anywhere), its called a *fully associative* cache
+- Cache writing has some challenges like keeping copies of data in different levels of memory in sync while being written to
+  - one strategy is *write-through* cache where you update both the item in cache and the one in main memory
+  - another is a `write-back` cache where you only update the item in cache and when its about to be ejected from cache, it writes back the updated item to main memory
+  - both strategies can use a write buffer
+- Another important topic is `cache-miss`. This is when you search all levels of cache and you can't find the memory you're looking for. This is caused by three main reasons:
+  - *Compulsory*: the data is just being accessed for the first time, so it hasn't been written to cache yet
+  - *Capacity*: the cache isn't big enough to store all the blocks needed during execution of a program. When it fills up, it has to eject other blocks and those other blocks might need to be accessed
+  - *Conflict*: If you have frequently accessed blocks that map to the same set, you get conflicts. Conflict misses occur when two (or more) memory blocks compete for the same spot (or set) in a cache. You can increase the associativity (decrease number of sets) to reduce this type of miss.
+
+> [!Note]
+> 
+> Taking a pause at page 76 to read Appendix B which gives a more in-depth overview of memory
+
+### Appendix B
