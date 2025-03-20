@@ -10,7 +10,7 @@ import Link from "next/link";
 import { LinkedinIcon } from "lucide-react";
 
 export const metadata = {
-  title: { template: "%s - Harris\'s Blog" },
+  title: { template: "%s - 0xBADC0DE" },
 };
 
 export default async function RootLayout({ children }) {
