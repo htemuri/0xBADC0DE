@@ -188,6 +188,8 @@ The concept of memory heirarchy came naturally as a result of the principle of l
 
 > [!Note]
 > 
-> Taking a pause at page 76 to read Appendix B which gives a more in-depth overview of memory
+> Taking a pause at page 76 to read Appendix B which gives a more in-depth overview of memory. 
+>
+> Need to read A before B because it provides context on instruction set architecture
 
 ### Appendix B
