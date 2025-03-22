@@ -5,7 +5,9 @@ date: 2025/03/17
 tags: [computer-architecture]
 ---
 
-## Table Of Contents <!-- omit from toc -->
+import { ImageZoom } from "nextra/components";
+
+## Table Of Contents {/*<!-- omit from toc -->*/}
 
 - [Chapter 1](#chapter-1)
   - [1.1 Introduction](#11-introduction)
@@ -18,11 +20,14 @@ tags: [computer-architecture]
 - [Chapter 2: Memory Hierarchy Design](#chapter-2-memory-hierarchy-design)
   - [2.1 Introduction](#21-introduction)
   - [Appendix B](#appendix-b)
+    - [Physical CPU Layout V1](#physical-cpu-layout-v1)
+    - [Virtual Memory](#virtual-memory)
 
 
-## Bookmark <!-- omit from toc -->
+## Bookmark {/*<!-- omit from toc -->*/}
 
-Stopped reading at page: **`76`**
+Stopped reading at page: **`76` -> `Appendix B-4`**
+
 
 > [!Note]
 > 
@@ -109,7 +114,6 @@ An **Instruction Set Architecture (ISA)** defines the interface between hardware
     ARM and MIPS ***NEED*** to be aligned!
 
 
-
 3. **Addressing Modes**:
    - Determine how memory locations are specified.
    - **MIPS**: Register, Immediate, Displacement.
@@ -141,8 +145,7 @@ An **Instruction Set Architecture (ISA)** defines the interface between hardware
 
 **Bandwidth or throughput** is the total amount of work done in a given time, such as megabytes per second for a disk transfer. In contrast, **latency or response time** is the time between the start and the completion of an event, such as milliseconds for a disk access.
 
-
-![Intel Core i7 die floorplan](/notes/computer-arch-1/core-i7-layout.png)
+<ImageZoom width={500} height={50} src={"/0xBADC0DE/notes/computer-arch-1/core-i7-layout.png"} alt="Intel Core i7 die floorplan"/>
 
 ### 1.9 Quantitative Principles of Computer Design
 
@@ -156,15 +159,13 @@ An example of instruction level parallelism is *pipelining*, overlapping instruc
 
 This chapter focused more on performance measurement, efficiency, and introducing terms that will be discussed in future chapters. At a few points, the author mentioned checking out the book, *Computer Organization and Design: The Hardware/Software Interface*. Looks like its more of an introductory text which goes over computer architecture terminology. Not sure if I should check this out first...
 
-
-
 ## Chapter 2: Memory Hierarchy Design
 
 ### 2.1 Introduction
 
 The concept of memory heirarchy came naturally as a result of the principle of locality. Not all data is accessed uniformly.
 
-![The levels in a typical memory hierarchy in a server computer shown on top (a) and in a personal mobile device (PMD) on the bottom (b)](/notes/computer-arch-1/memory-heirarchy.png)
+<ImageZoom width={500} height={50} src={"/0xBADC0DE/notes/computer-arch-1/memory-heirarchy.png"} alt="The levels in a typical memory hierarchy in a server computer shown on top (a) and in a personal mobile device (PMD) on the bottom (b)"/>
 
 
 **Memory Basics**:
@@ -189,7 +190,59 @@ The concept of memory heirarchy came naturally as a result of the principle of l
 > [!Note]
 > 
 > Taking a pause at page 76 to read Appendix B which gives a more in-depth overview of memory. 
->
-> Need to read A before B because it provides context on instruction set architecture
 
 ### Appendix B
+
+> Cache is the name given to the highest or first level of the memory hierarchy encountered once the address leaves the processor
+
+#### Physical CPU Layout V1
+
+<ImageZoom width={500} height={50} src={"/0xBADC0DE/notes/computer-arch-1/cpu-first-go-dark.svg"} alt="CPU Memory hierarchy v1"/>
+
+L3 cache being a part of the CPU depends on the CPU.
+
+*Word* is a term used to describe the smallest unit of data the CPU requests from memory at one time. It would be 4 or 8 bytes if the CPU architecture were 32 bits or 64 bits accordingly.
+
+Because of locality, we don't just cache one word at a time, we bring *blocks*, or groups of *words*. Cache block size is fixed at time of time of CPU design. It doesn't dynamically change based on workload. The same goes to associativity (number of blocks per set)-that number is also fixed at hardware design time.
+
+<ImageZoom width={500} height={50} src={"/0xBADC0DE/notes/computer-arch-1/cache-v1-dark.svg"} alt="Cache v1"/>
+
+
+#### Virtual Memory 
+
+Virtual memory is a memory-management technique that gives programs the illusion that they have a very large, continuous address space—even larger than the actual physical RAM in the computer.
+
+It does this by using both RAM (main memory) and disk storage (secondary storage), managing the placement and movement of data automatically and transparently.
+
+**Key Concepts of Virtual Memory**:
+1. Virtual vs. Physical Addresses:
+   - Virtual Addresses: Used by programs; these addresses are logical and not directly mapped to physical memory.
+   - Physical Addresses: Actual locations in RAM hardware.
+
+   The system transparently translates virtual addresses into physical addresses via the Memory Management Unit (MMU).
+
+2. Pages (Fixed-Size Blocks):
+   - Virtual memory is divided into fixed-size blocks called pages (typically 4 KB or larger).
+   - Similarly, physical memory is divided into blocks called frames of the same size.
+
+   A page in virtual address space maps onto exactly one physical frame in RAM, or resides temporarily on disk.
+
+3. Page Table:
+   - A special data structure, the page table, maintains the mappings of virtual pages → physical frames.
+   - It also indicates if a page is present in memory or currently stored on disk.
+
+**What's a Page Fault?**
+
+When the CPU tries to access data on a page that's not currently loaded in physical RAM (meaning it's stored on disk), a page fault occurs.
+
+Here's how it works:
+
+- CPU requests data at some virtual address.
+- MMU checks the page table: the requested page isn't in RAM (marked as "not present").
+- Page fault is triggered: OS software handles this situation by:
+   1. Pausing the current task temporarily.
+   2. Loading the requested page from disk into physical RAM.
+   3. Updating the page table to reflect the new location of the page.
+   4. Restarting the paused task.
+
+Since disk access is much slower (milliseconds) than RAM access (nanoseconds), the processor doesn't just wait—it usually switches to another task or thread while the page loads. When the page is finally ready, the original task resumes execution.
