@@ -203,7 +203,7 @@ L3 cache being a part of the CPU depends on the CPU.
 
 *Word* is a term used to describe the smallest unit of data the CPU requests from memory at one time. It would be 4 or 8 bytes if the CPU architecture were 32 bits or 64 bits accordingly.
 
-Because of locality, we don't just cache one word at a time, we bring *blocks*, or groups of *words*. Cache block size is fixed at time of time of CPU design. It doesn't dynamically change based on workload. The same goes to associativity (number of blocks per set)-that number is also fixed at hardware design time.
+Because of locality, we don't just cache one word at a time, we bring *blocks*, or groups of *words*. Cache block size is fixed at the time of CPU design. It doesn't dynamically change based on workload. The same goes to associativity (number of blocks per set)-that number is also fixed at hardware design time.
 
 <ImageZoom width={500} height={50} src={"/0xBADC0DE/notes/computer-arch-1/cache-v1-dark.svg"} alt="Cache v1"/>
 
