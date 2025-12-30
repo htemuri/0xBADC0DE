@@ -19,7 +19,7 @@ export default async function RootLayout({ children }) {
       <Head backgroundColor={{ dark: "#09090b", light: "#ffffff" }} >
         <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='.9em' font-size='90' text-anchor='middle'>🏔️</text></svg>" />
       </Head>
-      <body>
+      <body className="min-h-screen">
         <Layout>
           <div className="flex gap-3 mb-2 items-center">
             <code className="text-xl cursor-default text-cyan-600 dark:text-cyan-300 mt-1.5">0xBADC0DE</code>
