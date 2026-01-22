@@ -18,10 +18,7 @@ The repository evolves alongside my interests. Areas I explore include but are n
 - Networking
 - DevOps and Infrastructure
 - Electronics and Hardware
-- Productivity and Personal Development
 
 ## How to Use
 
 Feel free to browse, reference, or learn from the materials here. If you find mistakes, have suggestions, or would like to discuss anything, please reach out.
-
-Let's learn and grow together.
