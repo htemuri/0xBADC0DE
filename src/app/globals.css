@@ -124,6 +124,22 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+article {
+  padding-top: calc(var(--x-spacing) * 20)
+}
+
+@media (max-width: 1150px) {
+  article {
+    padding-top: calc(var(--x-spacing) * 10);
+  }
+}
+
+@media (max-width: 1100px) {
+  article {
+    padding-top: calc(var(--x-spacing) * 5);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -132,4 +148,5 @@
   body {
     @apply bg-background text-foreground;
   }
+
 }
