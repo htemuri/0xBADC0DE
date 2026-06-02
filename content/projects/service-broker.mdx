@@ -1,0 +1,120 @@
+---
+title: Pulumi-Azure Service Broker API
+description: Creating an Azure self-service API replicating what we needed at CDC - using Pulumi instead of Terraform
+date: 2026/06/01
+tags: [golang, iac, azure, pulumi]
+---
+
+import { ImageZoom, Callout, FileTree } from "nextra/components";
+
+
+## Background
+
+I was on a team that had to create and administrate Azure infrastructure for thousands of clients so they can consume the resources for their analytics/data science/development projects. This infrastructure needed to follow certain guidelines and standards (ex: monitoring, zero-trust networking, granular iam) defined by the governing body above us (in my case, CDC/HHS). It also needed to be able to scale and adapt over time as client project requirements changed.
+
+Our team had many other responsibilities beyond this so it was crucial that we make resource creation and management as streamlined as possible.
+
+## What we tried
+
+Before exploring the self service idea, we started by manually provisioning stuff like resources, entra groups, role assignments, and networking rules. That quickly became a mess as we onboarded more projects, so we began transitioning to Terraform. Terraform definitely helped a good amount because of modules and version control, but because of the volume of project onboardings we would get, we wanted to make it self-service with approval flows.
+
+### v0.1: Building a quick automation flow for self-service
+
+For context, our terraform code was organized somewhat like below:
+
+<FileTree className="mt-[-2]">
+  <FileTree.Folder name="terraform_modules" defaultOpen>
+    <FileTree.Folder name="storage_account" defaultOpen>
+      <FileTree.File name="main.tf" />
+      <FileTree.File name="variables.tf" />
+      <FileTree.File name="outputs.tf" />
+      <FileTree.File name="versions.tf" />
+    </FileTree.Folder>
+    <FileTree.Folder name="function_app" />
+    <ul>...</ul>
+  </FileTree.Folder>
+  <FileTree.Folder name="terraform_resources" defaultOpen>
+    <FileTree.Folder name="dev" defaultOpen>
+      <FileTree.Folder name="storage_account" defaultOpen>
+        <FileTree.File name="main.tf" />
+        <FileTree.File name="variables.tf" />
+      </FileTree.Folder>
+      <FileTree.Folder name="function_app" />
+      <ul>...</ul>
+    </FileTree.Folder>
+    <FileTree.Folder name="prd" />
+  </FileTree.Folder>
+</FileTree>
+
+The `terraform_modules` folder would be for modules on core resource types - these would include supporting resources needed for our use-case. For example, the `storage_account` module would include the storage account resource itself but also role assignments and private endpoints.
+
+<Callout type="info">I didn't write any of our Terraform modules, so the examples below are oversimplified.</Callout>
+
+```tf
+# terraform_modules/storage_account/main.tf
+
+resource "azurerm_storage_account" "this" {
+  name                     = var.name
+  resource_group_name      = var.resource_group_name
+  ...
+}
+
+resource "azurerm_role_assignment" "this" {
+  scope                = azurerm_storage_account.this.id
+  ...
+}
+
+resource "azurerm_private_endpoint" "dfs" {
+  name                = "${var.name}-dfs-pe"
+  ...
+}
+
+resource "azurerm_private_endpoint" "blob" {
+  name                = "${var.name}-blob-pe"
+  ...
+}
+```
+
+Then under the `terraform_resources` folder, we would instantiate the resources needed by each project/env.
+
+```tf
+# terraform_resources/dev/storage_account/main.tf
+
+locals {
+  source = "../../../../terraform_modules/storage_account"
+  env    = "dev"
+}
+
+module "covid-sa" {
+  source              = local.source
+  environment         = local.environment
+  project_name        = "covid"
+  ...
+}
+
+module "hanta-sa" {
+  source              = local.source
+  environment         = local.environment
+  project_name        = "hanta"
+  ...
+}
+
+...
+
+module "hiv-sa" {
+  source              = local.source
+  environment         = local.environment
+  project_name        = "hiv"
+  ...
+}
+```
+
+
+
+## The *new* Solution
+
+An API exposed via an SDK in Go (and probably TypeScript) and REST (and probably gRPC) endpoints.
+
+### Why am I using Pulumi?
+
+This is primarily because Pulumi has an automation API which allows me to create Pulumi constructs and execute Pulumi workloads directly via my application code. Terraform is limited to its CLI and if you want some semblance of what Pulumi offers through their automation API, you have to hack together something that executes their CLI commands through a side process.

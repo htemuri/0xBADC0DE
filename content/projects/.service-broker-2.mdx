@@ -1,0 +1,101 @@
+---
+title: Pulumi-Azure Service Broker API
+description: Creating an Azure self-service API replicating what we needed at CDC - using Pulumi instead of Terraform
+date: 2026/06/01
+tags: [golang, iac, azure, pulumi]
+---
+
+import { ImageZoom, Callout, FileTree } from "nextra/components";
+
+*Creating an Azure self-service API replicating what we needed at CDC — using Pulumi instead of Terraform*
+
+---
+
+At some point, every infrastructure team discovers that their real job isn't managing cloud resources. It's managing the *process* of managing cloud resources.
+
+When you're responsible for provisioning Azure infrastructure for thousands of client projects (analytics workloads, data science environments, development sandboxes), the cloud provider stops being the bottleneck pretty quickly. You are. Every new project means someone on your team has to write config, open a pull request, get it reviewed, run the apply, and hope nothing breaks. Multiply that by a few hundred onboardings a year and the math stops working.
+
+This is roughly the situation we found ourselves in. On top of the volume, everything we provisioned had to conform to compliance standards set by CDC/HHS: zero-trust networking, granular IAM, monitoring enabled from the start. Not guidelines. Requirements.
+
+---
+
+The first solution was the obvious one: stop clicking around in the portal and start writing Terraform.
+
+Terraform helped, genuinely. Modules gave us a way to encode compliance requirements once and reuse them everywhere. A storage account module didn't just create the blob store - it attached the role assignments and stood up the private endpoints too.
+
+```tf
+# terraform_modules/storage_account/main.tf
+
+resource "azurerm_storage_account" "this" {
+  name                = var.name
+  resource_group_name = var.resource_group_name
+  ...
+}
+
+resource "azurerm_role_assignment" "this" {
+  scope = azurerm_storage_account.this.id
+  ...
+}
+
+resource "azurerm_private_endpoint" "dfs" {
+  name = "${var.name}-dfs-pe"
+  ...
+}
+
+resource "azurerm_private_endpoint" "blob" {
+  name = "${var.name}-blob-pe"
+  ...
+}
+```
+
+Then under a separate resources folder, we'd instantiate those modules. One block per project, per environment, per resource type they needed. New project? Add the module blocks, apply, done.
+
+<Callout type="default">It was rarely this easy in practice. We would run into random errors that had to be debugged so project onboardings were often delayed.</Callout>
+
+```tf
+# terraform_resources/dev/storage_account/main.tf
+
+locals {
+  source = "../../../../terraform_modules/storage_account"
+  env    = "dev"
+}
+
+module "covid-sa" {
+  source       = local.source
+  environment  = local.env
+  project_name = "covid"
+  ...
+}
+
+module "hanta-sa" {
+  source       = local.source
+  environment  = local.env
+  project_name = "hanta"
+  ...
+}
+
+module "hiv-sa" {
+  source       = local.source
+  environment  = local.env
+  project_name = "hiv"
+  ...
+}
+```
+
+For a while, this worked. But it only shifted the problem - someone still had to touch the code for every single onboarding. Our team had plenty of other responsibilities, and the Terraform workflow was still a human-gated process that scaled linearly with demand.
+
+What we actually needed was for clients (in our case it was the client *support* team) to be able to request resources themselves, with approval flows baked in and our compliance standards enforced automatically. No more waiting for our team to get time to deploy.
+
+---
+
+The solution is an API — a service broker that sits between clients and their Azure infrastructure, exposing a clean interface for requesting, updating, and tearing down resources without exposing any of the machinery underneath. Clients describe what they need. The broker handles the rest.
+
+It's written in Go and exposed over REST (and eventually gRPC), with an SDK for programmatic access.
+
+The infrastructure engine underneath is Pulumi, and the choice isn't arbitrary.
+
+Terraform is a CLI-first tool. That's not a criticism — it's just the design. If you want to drive Terraform from inside a running application, your options are roughly: shell out to the CLI and parse its output, or reach for something like CDKTF and accept that additional layer of abstraction. Neither option gives you clean integration with application code. You're always working around the CLI, not with it.
+
+Pulumi has an automation API. This means Pulumi programs can be created, configured, and executed directly as library calls from within your application — no subprocess, no output parsing, no side effects you didn't ask for. When a client hits the `/storage-account` endpoint, the service can instantiate a Pulumi stack and run an update in the same process, the same codebase, with the same error handling you'd use anywhere else in Go.
+
+The infrastructure layer and the API that orchestrates it aren't separate concerns stitched together. They're the same program.
