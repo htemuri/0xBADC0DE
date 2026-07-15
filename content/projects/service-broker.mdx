@@ -1,81 +1,36 @@
 ---
-title: Pulumi-Azure Service Broker API
+title: Azure-Pulumi Service Broker
 description: Creating an Azure self-service API replicating what we needed at CDC - using Pulumi instead of Terraform
-date: 2026/06/01
-tags: [golang, iac, azure, pulumi]
+date: 2026/07/14
+tags: [golang, iac, azure, pulumi, grpc, protobuf]
 ---
 
 import { ImageZoom, Callout, FileTree } from "nextra/components";
 
 
+<Callout type="info">
+<p>**AI Disclaimer**</p>
+<p>As it's project meant for learning, this repo does not contain any AI generated code<sup>1</sup> nor was the architecture ideated using AI. The documentation and write-up, however, is written with the assistance of an LLM. My decision to not use AI to assist with programming my pet projects doesn't reflect an anti-ai sentiment for use during company work.</p>
+<br/>
+<p className="text-xs"><sup>1</sup>Except for the `unwrapOneof` function [here](https://github.com/htemuri/azure-pulumi-service-broker/blob/6d9d739ead32ba770da6b086397bc3b27d360539/pkg/templates/template.go#L125). I couldn't figure out how to properly cast the [`isTemplates_Template` oneOf](https://github.com/htemuri/azure-pulumi-service-broker/blob/6d9d739ead32ba770da6b086397bc3b27d360539/pkg/templates/template.pb.go#L31) interface in my generated protobuf code to my custom interface for Template without having to manually write cases for each possible template that implemented `isTemplates_Template`.</p>
+</Callout>
+
+## Overview
+
+The Azure-Pulumi service broker is an gRPC API that allows users to provision templated infrastructure to Azure through Pulumi. In practice, it solves the problem of needing to supply repeatable infrastructure through user requests. The current implementation is a proof of concept with a lot of room for improvement if you were to actually deploy it to a production environment - I speak about this in more detail in [What I Would Change](#what-i-would-change).
+
+You can find the code to it here:
+https://github.com/htemuri/azure-pulumi-service-broker
+
+### Demo using `example/client/main.go`
+
+<div className="min-w-full"><iframe width="100%" height="500" src="https://www.youtube.com/embed/xstuxZrgMb0?si=KMYsxTfNUQRXROcD" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+
 ## Background
 
-I was on a team that had to create and administrate Azure infrastructure for thousands of clients so they can consume the resources for their analytics/data science/development projects. This infrastructure needed to follow certain guidelines and standards (ex: monitoring, zero-trust networking, granular iam) defined by the governing body above us (in my case, CDC/HHS). It also needed to be able to scale and adapt over time as client project requirements changed.
+I decided to build this project after watching [a video by Vasilios Syrakis](https://youtu.be/55pTFVoclvE?si=40ho65815dvyjkZN) where he describes a service that he developed for Atlassian. His project was an internal tool for developers to get envoy proxies for their applications and it followed the [Open Service Broker API specification](https://github.com/cloudfoundry/servicebroker). This reminded me of an idea I had working at the CDC where we had to provision Azure infrastructure on demand for CDC projects. The thought was to write a service broker, similar to Vasilios', for CDC users to "order" infrastructure self-service instead of them having to create tickets leading to meetings with my team.
 
-Our team had many other responsibilities beyond this so it was crucial that we make resource creation and management as streamlined as possible.
-
-## What we tried
-
-Before exploring the self service idea, we started by manually provisioning stuff like resources, entra groups, role assignments, and networking rules. That quickly became a mess as we onboarded more projects, so we began transitioning to Terraform. Terraform definitely helped a good amount because of modules and version control, but because of the volume of project onboardings we would get, we wanted to make it self-service with approval flows.
-
-### v0.1: Building a quick automation flow for self-service
-
-For context, our terraform code was organized somewhat like below:
-
-<FileTree className="mt-[-2]">
-  <FileTree.Folder name="terraform_modules" defaultOpen>
-    <FileTree.Folder name="storage_account" defaultOpen>
-      <FileTree.File name="main.tf" />
-      <FileTree.File name="variables.tf" />
-      <FileTree.File name="outputs.tf" />
-      <FileTree.File name="versions.tf" />
-    </FileTree.Folder>
-    <FileTree.Folder name="function_app" />
-    <ul>...</ul>
-  </FileTree.Folder>
-  <FileTree.Folder name="terraform_resources" defaultOpen>
-    <FileTree.Folder name="dev" defaultOpen>
-      <FileTree.Folder name="storage_account" defaultOpen>
-        <FileTree.File name="main.tf" />
-        <FileTree.File name="variables.tf" />
-      </FileTree.Folder>
-      <FileTree.Folder name="function_app" />
-      <ul>...</ul>
-    </FileTree.Folder>
-    <FileTree.Folder name="prd" />
-  </FileTree.Folder>
-</FileTree>
-
-The `terraform_modules` folder would be for modules on core resource types - these would include supporting resources needed for our use-case. For example, the `storage_account` module would include the storage account resource itself but also role assignments and private endpoints.
-
-<Callout type="info">I didn't write any of our Terraform modules, so the examples below are oversimplified.</Callout>
-
-```tf
-# terraform_modules/storage_account/main.tf
-
-resource "azurerm_storage_account" "this" {
-  name                     = var.name
-  resource_group_name      = var.resource_group_name
-  ...
-}
-
-resource "azurerm_role_assignment" "this" {
-  scope                = azurerm_storage_account.this.id
-  ...
-}
-
-resource "azurerm_private_endpoint" "dfs" {
-  name                = "${var.name}-dfs-pe"
-  ...
-}
-
-resource "azurerm_private_endpoint" "blob" {
-  name                = "${var.name}-blob-pe"
-  ...
-}
-```
-
-Then under the `terraform_resources` folder, we would instantiate the resources needed by each project/env.
+Our existing solution was a bunch of terraform modules for different Azure resource types, and for each type and environment combination, we would instantiate the modules for each project. For example, for dev storage accounts, our `main.tf` could look like this:
 
 ```tf
 # terraform_resources/dev/storage_account/main.tf
@@ -85,36 +40,84 @@ locals {
   env    = "dev"
 }
 
-module "covid-sa" {
+module "project-a" {
   source              = local.source
   environment         = local.environment
-  project_name        = "covid"
+  project_name        = "a"
   ...
 }
 
-module "hanta-sa" {
+module "project-b" {
   source              = local.source
   environment         = local.environment
-  project_name        = "hanta"
+  project_name        = "b"
   ...
 }
 
 ...
 
-module "hiv-sa" {
+module "project-c" {
   source              = local.source
   environment         = local.environment
-  project_name        = "hiv"
+  project_name        = "c"
   ...
 }
 ```
 
+These files would be updated manually until we created a powershell script that would append text to the `main.tf` files on a CICD pipeline trigger. While this was a great improvement to the original process, with a growing number of resource types supported, changes to resource property conventions, and an increasing influx of requests - maintaining that script became very difficult. 
 
+The problem of provisioning infrastructure for projects from a catalogue that follows our internal conventions is deterministic one and can be solved with an API. The Azure-Pulumi Service Broker provides that API and improves reliability by adding protobufs and a strict type system.
 
-## The *new* Solution
+## What the Project Does
 
-An API exposed via an SDK in Go (and probably TypeScript) and REST (and probably gRPC) endpoints.
+At its core, a client sends a `CreateProject` gRPC request describing a project: a name, an environment (`dev`/`tst`/`stg`/`prd`), and a list of templates it wants provisioned. I created some sample templates to show what they might look like:
+
+- **Base**: Subscription, Vnet/Subnets
+- **Security**: Key Vault (with Private Endpoints)
+- **Storage**: Storage Account (with Private Endpoints)
+
+The broker API doesn't provision anything itself. It publishes the request to NATS JetStream and immediately hands back a `deploymentId`. A separate `pulumi-worker` process picks the job up off the queue, runs the corresponding Pulumi programs against Azure through the Automation API, and writes the result back to a NATS key-value store - success or failure, along with whatever resource outputs came out of the deployment (resource IDs, connection strings, etc). The client polls `GetProjectStatus` with the `deploymentId` until it gets back a terminal status.
+
+I designed it this way because provisioning can take minutes, and I didn't want to hold a gRPC connection open (or time one out) for the whole deployment. Splitting submission from execution also keeps the broker API itself cheap and stateless - the workers are the only piece that actually needs to scale with deployment load.
+
+## Technical Implementation
+
+<ImageZoom width={1000} height={100} src={"/0xBADC0DE/projects/servicebroker/diagram.png"} alt="Diagram: Architecture of the Azure Pulumi service broker."/>
+
+The whole API surface is defined in protobuf (`proto/`), which gives strict typing across the wire - request/response shapes per template, enums for environment/region/status, and a `oneof` for the template variants. Everything gets compiled to Go with `protoc`. Each template includes a property `dependsOn` which is a list of other templates that a given template depends on (like the name suggests). The broker pulumi worker topologically sorts the templates requested and installs them in order of dependency.
+
+The full flow looks like this:
+
+1. `broker-api` receives a `CreateProjectRequest`, marshals it to protobuf bytes, and publishes it to a `ProjectJobQueue` JetStream stream under a subject like `create.<deploymentId>`.
+2. `pulumi-worker` runs a durable JetStream consumer against that stream, unmarshals the request, and dispatches each requested template to its corresponding Pulumi program via the Automation API.
+3. The result gets marshaled into a `GetProjectStatusResponse` and written into a NATS KV bucket keyed by `deploymentId`.
+4. `GetProjectStatus` just reads that key back out.
+
+Using protobuf for both the gRPC contract and the queue payload meant I didn't need a second serialization format for internal messaging - the same generated types flow all the way from client, to broker, to worker, and back to client again.
 
 ### Why am I using Pulumi?
 
-This is primarily because Pulumi has an automation API which allows me to create Pulumi constructs and execute Pulumi workloads directly via my application code. Terraform is limited to its CLI and if you want some semblance of what Pulumi offers through their automation API, you have to hack together something that executes their CLI commands through a side process.
+I wanted to write the actual infrastructure logic in a real programming language instead of HCL. Templates need to share a common `DefaultParams` block, branch on environment, and loop over things like subnets or private endpoint sub-resources - all of which is straightforward in Go and clunkier in Terraform's expression language.
+
+More specifically, I'm using Pulumi's Automation API, which lets you drive Pulumi programmatically from inside a Go service rather than shelling out to the Pulumi CLI. That's really what makes the whole "broker calls Pulumi as a library" model possible - the worker isn't wrapping a CLI subprocess, it's importing Pulumi and running stacks directly against my Go template functions.
+
+
+## Things I Learned / Hardships
+
+This was my first time using NATS, protobuf, gRPC, and Pulumi together, so most of the learning curve on this project was just getting comfortable with the stack itself.
+
+NATS turned out to be a lot more versatile than I expected going in. I'd only ever thought of it as a pub/sub system, but JetStream gives you durable streams, consumers, and a key-value store on top of the same server - which is why I ended up using it for both the job queue and the deployment status store instead of reaching for something like Redis or a database alongside it.
+
+Protobuf, on the other hand, felt a lot heavier than I expected. It's great for getting strict types across the wire, but the generated code is bloated, and things that feel like they should be simple - like casting a generated `oneof` interface to my own custom interface - end up requiring workarounds like the `unwrapOneof` function in `pkg/templates/template.go`.
+
+Pulumi's Azure Native provider was a highlight - it's generated directly from Azure's ARM REST API spec, so it stays a lot closer to what Azure actually exposes than hand-maintained providers tend to. Where I ran into limits was the Automation API itself: it's fine for running local Pulumi programs like mine, but it's currently lacking when it comes to deploying from remote sources - like a GitHub repo or actual Pulumi Templates - which is why this project ended up with templates hardcoded into the worker instead of pulled in dynamically.
+
+### What I Would Change
+
+This is a proof of concept, and there's a handful of things I'd want to fix before trusting it in production:
+
+- **No rollback path**: if a deployment partially fails, there's currently no automated way to tear back down what did succeed.
+- **No export/sync story**: deployed infrastructure only exists as Pulumi state; there's no way to export it to a repo-trackable format (Terraform HCL, Pulumi stack files, ARM/JSON) for review or drift detection.
+- **No NATS auth or TLS**: right now anything that can reach the NATS server can publish jobs or read the deployments KV store.
+- **Templates are Go code, not real Pulumi Templates**: I originally wanted [actual Pulumi Templates](https://www.pulumi.com/templates/), but the Automation API doesn't support that yet ([tracked upstream](https://github.com/pulumi/pulumi/issues/16949)), so templates are hardcoded in `pkg/templates` instead of pluggable or remote.
+- **No telemetry**: there's no visibility into deployment duration, failure rates, or queue depth beyond reading logs.
