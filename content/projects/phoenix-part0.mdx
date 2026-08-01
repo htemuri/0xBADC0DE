@@ -9,7 +9,7 @@ tags: ["electronics", "linux", "phoenix"]
 I plan on making this a multi-part series describing my process of building this "Frankenpad". Since I don't have much experience with mechanical engineering, electronics, and low-level programming, this project can easily take me a year of toiling away to get to a working state.
 
 All the source files for this project will be on GitHub:
-https://github.com/htemuri/phoenix
+<br/>https://github.com/htemuri/phoenix
 
 ## Introduction
 
@@ -19,12 +19,23 @@ I remember using the X2xx series laptops in highschool. The heavy chassis, the t
 
 In this part, we will be going over the scope of the project.
 
-- Chassis
-  - Modifying Chassis to fit the mainboard
-  - Fan shroud for good thermals
-- Display
-  - Bezel
-  - Wiring
+## Chassis
+
+I want to preserve the ThinkPad look in this upgrade, so we'll try to keep aesthetic modifications to a minimum. That said, we still need to modify the chassis quite a bit to fit our modern parts. Here are some things we need to tackle:
+
+- Making room for the framework mainboard
+- Build a sort of shroud for the mainboard fan exhaust
+- Perhaps add ventilation holes for better air inlet (determine after testing performance)
+- Slim down display bezel for larger panel
+- New I/O ports
+
+## Display
+
+We're going to upgrade the current 12.1" 1280x800 (16:10) screen to a 13.3" 2560x1600 (16:10) screen. I was doing some research on Panelook and I've narrowed down the panel options to:
+
+- [Samsung ATNA33AA07-0](https://www.panelook.com/ATNA33AA07-0_Samsung_13.3_OLED_overview_64829.html): ~$250, 60Hz, AMOLED, 2880×1800, Glossy. (OLED not the best for static content like that displayed while programming)
+
+
 - Battery
   - BMS
   - Pack made from 18650 cells perhaps
