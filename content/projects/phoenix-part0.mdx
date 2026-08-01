@@ -33,22 +33,24 @@ I want to preserve the ThinkPad look in this upgrade, so we'll try to keep aesth
 
 We're going to upgrade the current 12.1" 1280x800 (16:10) screen to a 13.3" 2560x1600 (16:10) screen. I was doing some research on Panelook and I've narrowed down the panel options to:
 
+- [BOE NE133QDM-N62](https://www.panelook.com/modeldetail.php?id=55572): ~$80, 60Hz, ADS, 2560x1600, Matte, 20ms, 2022
+- [BOE NE133QDM-N65](https://www.panelook.com/NE133QDM-N65_BOE_13.3_LCM_overview_56458.html): ~$80, 60Hz, ADS, 2560x1600, Matte, AMD FreeSync, 30ms, 2023
+- *[TIANMA TL134ADXP01-00](https://www.panelook.com/TL134ADXP01-00_Tianma_13.4_LCM_overview_60561.html): ~$90, 165Hz, FFS, 2560x1600, 13.4"*, Matte, 3ms, 2022
 - [Samsung ATNA33AA07-0](https://www.panelook.com/ATNA33AA07-0_Samsung_13.3_OLED_overview_64829.html): ~$250, 60Hz, AMOLED, 2880×1800, Glossy. (OLED not the best for static content like that displayed while programming)
 
+*Probably will go with this one for the specs. The risk is that the dimensions might be cutting it close for the size of the X200 bezel. I know that *tpart* made it possible, so I'll give it a try as well.
 
-- Battery
-  - BMS
-  - Pack made from 18650 cells perhaps
-  - retrofit in 47+++ enclosure
-- Keyboard
-  - Converting custom connector to framework input cover interface
-  - Get trackpoint working too
-- I/O
-  - Daughterboard for speakers
-  - USB 3.0
-  - USB C with dp-alt
-  - Gigabit LAN
+## Battery
 
+I think this alone will be a pretty big project. Ideally, I want to make a battery pack with it's own DIY BMS and stuff it in an aftermarket 47++ battery housing. The initial plan is to take some really high quality 18650 cells like the [Ampace JP30P1s](https://diy500amp.com/products/ampace-jp30-18650-3000mah-56a), and then work my way into being able to design a BMS better than the cheap chinese ones you can buy for a couple bucks. We'll also need to have a spare retail style battery backup for if you want to travel with the laptop. As y'all may know, lithium-ion batteries can be very dangerous (fires, explosions), so we definitely don't want to bring an untested, DIY one on an airplane lol. I'm not sure what the backup battery solution is for now, but I guess an external USB-C battery pack could work.
+
+## Keyboard
+
+This one also might be tricky - particularly because of the connector that ThinkPad keyboards use. Thankfully, it seems that there have been some [smart people](https://www.zerocat.org/projects/ps2-keyboard/doc/index.html) who have attempted to build a controller for it to work with PS/2, so that could give us a nice jumpstart. In terms of connectors, I think we're going to need an [FPC](https://www.molex.com/en-us/products/printed-electronics/flexible-printed-circuits) and maybe a controller with the framework input cover connector. We also need to think about how to get the trackpoint working.
+
+## Input / Output (I/O)
+
+I see this section as three parts: one is the mechanical engineering side where we have to design covers for the I/O ports on the laptop, one is the electrical engineering side where we have to design a daughterboard or multiple, and the last is the software engineering side where we potentially have to write device drivers. I'm still split on whether to add a webcam to this laptop...
 
 ## Resources
 
