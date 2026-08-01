@@ -6,6 +6,14 @@ tags: [emacs, linux]
 ---
 import { Callout } from "nextra/components";
 
+## Overview
+
+I'm going to keep this post updated with my latest Emacs setup. This is more for me to remember how I have it setup in case I ever have to set it up again.
+
+My dotfiles are stored here:
+<br/>https://github.com/htemuri/dotfiles.git
+
+
 ## Run as daemon
 
 In order to persist my emacs sessions between different client processes, I start up an Emacs daemon on boot through `systemd`. My system unit file looks like below and is stored in `/etc/systemd/system/emacs.service`:
