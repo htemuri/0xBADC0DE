@@ -500,5 +500,33 @@ Write a program that calls fork(). Before calling fork(), have the main process 
 Answer:
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
+int main(int argc, char *argv[])
+{
+  int x = 50;
+  x = 100;
+  int rc = fork();
+  if (rc < 0) {
+    // failed fork
+    printf("failed to fork process: %d\n", rc);
+  } else if (rc == 0) {
+    // child process
+    printf("child value of x: %d\n", x); // 100
+    x = 25;
+    printf("child 2nd x: %d\n", x); // 25
+  } else {
+    // parent continues
+    printf("parent continued value of x: %d\n", x); // 100
+    x = 75;
+    printf("parent 2nd x: %d\n", x); // 75
+  }
+  return 0;
+}
 ```
+
+The integer `x` retains the same virtual address, but as we know child and parent processes don't share physical memory space, so the child basically copies `x` when it forks. Both the child and parent can modify `x` at the same time, because they're not the same variable (in memory).
+
+#### Question 2
