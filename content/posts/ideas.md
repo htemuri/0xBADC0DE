@@ -26,3 +26,7 @@ I want to have a central repository of interesting project ideas that I either c
   - *laptop*: laptop specific
   - *desktop*: home computer
   - *work*: work laptop (most likely windows-based, so I'll have to configure WSL2)
+
+- **Cans: DIY Closed-back Headphones**
+
+  I don't want to somehow make my own drivers, but I do want to design and build the headphone frames. They should be over-ear, closed-back headphones that are repairable and easy to assemble. I believe I'll need to buy one of those professional mannequin heads that can accurately measure headphones. In addition to that, we'll obviously need a 3d printer.
