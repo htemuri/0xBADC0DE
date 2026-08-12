@@ -30,3 +30,7 @@ I want to have a central repository of interesting project ideas that I either c
 - **Cans: DIY Closed-back Headphones**
 
   I don't want to somehow make my own drivers, but I do want to design and build the headphone frames. They should be over-ear, closed-back headphones that are repairable and easy to assemble. I believe I'll need to buy one of those professional mannequin heads that can accurately measure headphones. In addition to that, we'll obviously need a 3d printer.
+
+- **Keyboard: DIY Ergonomic Keyboard**
+
+  Just a basic split ergonomic keyboard. Get to learn PCB design, driver programming, and case design. I'll use consumer switches and keycaps.
