@@ -37,4 +37,4 @@ I want to have a central repository of interesting project ideas that I either c
 
 - **Astro: Rewriting my personal sites**
 
-  I have two personal sites right now: [my portfolio](https://htemuri.github.io) and [my blog/content dump](https://htemuri.github.io/0xBADC0DE). These are both written with NextJS, and in the spirit of crafting lean software, I want to rewrite these to Astro. This isn't because my current sites are currently slow, it's just to simplify the code. 
+  I have two personal sites right now: [my portfolio](https://htemuri.github.io) and [my blog/content dump](https://htemuri.github.io/0xBADC0DE). These are both written with NextJS, and in the spirit of crafting lean software, I want to rewrite these to Astro. This isn't because my current sites are currently slow, it's just to simplify the code. I might also just go straight html/css for the portfolio and astro for the blog.
