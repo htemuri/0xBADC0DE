@@ -38,3 +38,7 @@ I want to have a central repository of interesting project ideas that I either c
 - **Astro: Rewriting my personal sites**
 
   I have two personal sites right now: [my portfolio](https://htemuri.github.io) and [my blog/content dump](https://htemuri.github.io/0xBADC0DE). These are both written with NextJS, and in the spirit of crafting lean software, I want to rewrite these to Astro. This isn't because my current sites are currently slow, it's just to simplify the code. I might also just go straight html/css for the portfolio and astro for the blog.
+
+- **Server for synced notes**
+
+  A server to store notes/tasks that supports mulitiple concurrent clients. I want to be able to create a note-taking client for linux and android that will allow me to record my thoughts and have them stored in one central location. Typically I would use something like signal's self message for notes and google keep for tasks, but I want something self-hosted for privacy and freedom to make changes.
