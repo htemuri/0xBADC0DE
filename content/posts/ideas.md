@@ -42,3 +42,8 @@ I want to have a central repository of interesting project ideas that I either c
 - **Server for synced notes**
 
   A server to store notes/tasks that supports mulitiple concurrent clients. I want to be able to create a note-taking client for linux and android that will allow me to record my thoughts and have them stored in one central location. Typically I would use something like signal's self message for notes and google keep for tasks, but I want something self-hosted for privacy and freedom to make changes.
+
+
+### Random Small Projects
+
+- CLI that backs up filesystem, encrypts it, pushes to remote storage, and is able to recover. This is for OPSEC reasons.
