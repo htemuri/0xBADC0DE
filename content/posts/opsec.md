@@ -15,7 +15,7 @@ At the start of most OPSEC projects, people usually define their "threat model" 
 4. I do not want to provide access to data stored on any of my devices unless provided with reasonable cause to the request.
 5. I do not want my shopping/eating/travel/communication habits modeled and predicted.
 
-I believe these are pretty reasonable goals, but the more I research into OPSEC, the more it's apparent how difficult it can be to reach this level of privacy. But like it's said about many things, privacy is a marathon, not a sprint.
+I believe these are pretty reasonable goals, but the more I research into OPSEC, the more it's apparent how difficult it can be to reach this level of privacy. But as with many other things, privacy is a marathon, not a sprint.
 
 
 ## Digital Privacy
@@ -78,9 +78,11 @@ flowchart TD
     style MIKROTIK_NET fill:#1a2e35,stroke:#22d3ee,stroke-width:2px
 ```
 
-This gives me control to my own network, but WhiteSky is still able to see all of my WAN traffic. In order to prevent that, I'm going to create policy rules to route certain traffic through a VPN like Proton VPN. We're also going to force DNS over HTTPS (DoH) to Quad9 and Cloudflare without routing through the VPN for reducing latency.
+This gives me control to my own network, but WhiteSky is still able to see all of my WAN traffic. In order to prevent that, I'm going to create policy rules to route certain traffic through a VPN like Proton VPN. We're also going to force DNS over HTTPS (DoH) to Quad9 without routing through the VPN for reducing latency.
 
 Although securing DNS, HTTPS traffic that isn't routed through a VPN can still be logged and identified by WhiteSky exposed by [SNI](http://cloudflare.com/learning/ssl/what-is-sni/), which to be clear, only exposes the domains that you're handshaking with and not the content of your payloads. There is Encrypted SNI (ESNI), but from what I've read, it's not really widely adopted. I'm still trying to figure out a good workaround for this.
+
+**Update on ESNI**: It looks like ESNI has actually been replaced by [ECH](https://developers.cloudflare.com/ssl/edge-certificates/ech/) which does in-fact look widely used. Just keep in mind that without a VPN, your ISP can still see the IP addresses you're sending requests to.
 
 
 ### Phone
