@@ -47,3 +47,4 @@ I want to have a central repository of interesting project ideas that I either c
 ### Random Small Projects
 
 - CLI that backs up filesystem, encrypts it, pushes to remote storage, and is able to recover. This is for OPSEC reasons.
+- Set up news feed aggregator with purely RSS feed inputs.
