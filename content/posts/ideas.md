@@ -43,6 +43,14 @@ I want to have a central repository of interesting project ideas that I either c
 
   A server to store notes/tasks that supports mulitiple concurrent clients. I want to be able to create a note-taking client for linux and android that will allow me to record my thoughts and have them stored in one central location. Typically I would use something like signal's self message for notes and google keep for tasks, but I want something self-hosted for privacy and freedom to make changes.
 
+- **Intentional devices**
+
+  I want to remove a bunch of subscriptions and advertising-riddled experiences from my life, and something I've been looking into is the use of things like local media, self-hosting, and switching to dedicated devices from all-in-ones. Here are some things I would like to do related to this effort:
+
+  - Switch from Spotify to a DAP
+  - Use a flip-phone for my personal phone number
+  - Use VOIP numbers with a GrapheneOS phone
+  - Use an unlocked, data-only cheap android phone for android auto
 
 ### Random Small Projects
 
