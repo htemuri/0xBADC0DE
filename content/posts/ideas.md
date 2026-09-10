@@ -51,6 +51,7 @@ I want to have a central repository of interesting project ideas that I either c
   - Use a flip-phone for my personal phone number
   - Use VOIP numbers with a GrapheneOS phone
   - Use an unlocked, data-only cheap android phone for android auto
+  - RSS feed with youtube subscriptions that open in FLOW desktop
 
 ### Random Small Projects
 
