@@ -54,6 +54,8 @@ I want to have a central repository of interesting project ideas that I either c
   - RSS feed with youtube subscriptions that open in FLOW desktop
   - Journal about trips/events on personal blog instead of on social media
 
+- **UHF RFID Cloner**: The past few apartments I've leased at have all had gates that use ultra-high frequency rfid scanners/tags. Replacement for lost tags is usually quite expensive, so I want to figure out how to build a tool that can clone those tags so I can open gates even if I happen to lose them. I looked into commercially available products like the flipper zero, but it only supports LF/ULF/HF and not UHF. That is unless you mod it with something like the UCM601C UHF RFID reader module. I might just go through this route because I want the other capabilities that the flipper zero offers too.
+
 ### Random Small Projects
 
 - CLI that backs up filesystem, encrypts it, pushes to remote storage, and is able to recover. This is for OPSEC reasons.
