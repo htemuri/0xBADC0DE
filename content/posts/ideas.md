@@ -56,6 +56,11 @@ I want to have a central repository of interesting project ideas that I either c
 
 - **UHF RFID Cloner**: The past few apartments I've leased at have all had gates that use ultra-high frequency rfid scanners/tags. Replacement for lost tags is usually quite expensive, so I want to figure out how to build a tool that can clone those tags so I can open gates even if I happen to lose them. I looked into commercially available products like the flipper zero, but it only supports LF/ULF/HF and not UHF. That is unless you mod it with something like the UCM601C UHF RFID reader module. I might just go through this route because I want the other capabilities that the flipper zero offers too.
 
+- **Microsoft Teams TUI**: A client for teams on the terminal.
+
+  We all know Teams sucks, but what if it didn't. I've been in the mood of transitioning to javascript-free apps, and this seems like a fun project. I'm not sure if this should be a dedicated terminal app or just an emacs mode package... I like the emacs idea better. Let's avoid any fancy UI elements and stick to the design philosophy of something like mu4e. 
+
+
 ### Random Small Projects
 
 - CLI that backs up filesystem, encrypts it, pushes to remote storage, and is able to recover. This is for OPSEC reasons.
