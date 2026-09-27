@@ -60,6 +60,9 @@ I want to have a central repository of interesting project ideas that I either c
 
   We all know Teams sucks, but what if it didn't. I've been in the mood of transitioning to javascript-free apps, and this seems like a fun project. I'm not sure if this should be a dedicated terminal app or just an emacs mode package... I like the emacs idea better. Let's avoid any fancy UI elements and stick to the design philosophy of something like mu4e. 
 
+- **ESP-32 Barcode Library**: Consolidated library of all your random membership barcodes
+
+  I want to replace my membership keychain cards with an esp32 with a small display and a couple physical buttons. I should be able to load new barcodes onto it and cycle through them with the buttons.
 
 ### Random Small Projects
 
