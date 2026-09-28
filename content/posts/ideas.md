@@ -68,3 +68,4 @@ I want to have a central repository of interesting project ideas that I either c
 
 - CLI that backs up filesystem, encrypts it, pushes to remote storage, and is able to recover. This is for OPSEC reasons.
 - Set up news feed aggregator with purely RSS feed inputs.
+- Halloween costume: Make a home lab out of cardboard, paint, and leds.
