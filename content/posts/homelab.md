@@ -39,8 +39,8 @@ Before I get into what I currently own, let me just run through my goals with th
 - 1 x Dell R430 with E5-2620v4, 32GB DDR4 ECC RAM, Perc H330 Mini, 1x250GB Crucial MX500 SATA SSD
 
 ##### Networking
-1 x Mikrotik RB5009UG+S+in Router
-1 x TPLink TL-SG1024DE, 24 Port Gigabit Managed Switch
+- 1 x Mikrotik RB5009UG+S+in Router
+- 1 x TPLink TL-SG1024DE, 24 Port Gigabit Managed Switch
 
 ## Networking Setup
 
