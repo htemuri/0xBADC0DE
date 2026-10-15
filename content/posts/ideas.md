@@ -63,6 +63,10 @@ I want to have a central repository of interesting project ideas that I either c
 - **ESP-32 Barcode Library**: Consolidated library of all your random membership barcodes
 
   I want to replace my membership keychain cards with an esp32 with a small display and a couple physical buttons. I should be able to load new barcodes onto it and cycle through them with the buttons.
+  
+- **DIY DAP**: Portable digital audio player running on a microcontroller like an esp32 plus a highres stereo DAC chip
+  
+  Once I get my CNC or 3D printer, I'll be able to build a physical case for this, but in the meantime I can design and build the circuit. Other than the standard features of a DAP like local storage, mp3 player frontend, and support for multiple audio codecs, I want to add network access through wifi or cellular. This is so I can stream music from my homelab over a network instead of having to often update my local library.
 
 ### Random Small Projects
 
