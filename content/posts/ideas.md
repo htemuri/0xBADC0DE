@@ -68,6 +68,9 @@ I want to have a central repository of interesting project ideas that I either c
   
   Once I get my CNC or 3D printer, I'll be able to build a physical case for this, but in the meantime I can design and build the circuit. Other than the standard features of a DAP like local storage, mp3 player frontend, and support for multiple audio codecs, I want to add network access through wifi or cellular. This is so I can stream music from my homelab over a network instead of having to often update my local library.
 
+- **GitHub Actions Workflow Formatter**: Formatter for GHA yaml files - specifically tying in existing formatters to format specific blocks. For example, a `run` step specifying bash, should use something like `shellfmt` to format the block.
+
+
 ### Random Small Projects
 
 - CLI that backs up filesystem, encrypts it, pushes to remote storage, and is able to recover. This is for OPSEC reasons.
